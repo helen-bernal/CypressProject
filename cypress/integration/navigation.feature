@@ -1,27 +1,28 @@
 Feature: Navigation to all header links
-Background:
+
+  Background:
     Given I visit the Blaze Store page
 
-Scenario:Click on Home
-When I click on Home
-Then I go to the Home Page
+  Scenario: Navigate to the Home page
+    When I click on "Home"
+    Then I am redirected to the Home page
 
-Scenario:Click on Contact
-When I click on Contact
-Then I go to the Contact Page
+  Scenario: Navigate to the Contact page
+    When I click on "Contact"
+    Then I am redirected to the Contact page
 
-Scenario:Click on About us
-When I click on About us
-Then I go to the About us Page
+  Scenario: Navigate to the About Us page
+    When I click on "About Us"
+    Then I am redirected to the About Us page
 
-Scenario:Click on cart
-When I click on cart
-Then I go to the cart Page
+  Scenario: Navigate to the Cart page
+    When I click on "Cart"
+    Then I am redirected to the Cart page
 
-Scenario:Click on Log in
-When I click on Log in
-Then I go to the Log in Page
+  Scenario: Navigate to the Log In page
+    When I click on "Log In"
+    Then I am redirected to the Log In page
 
-Scenario:Click on Sign up
-When I click on Sign up
-Then I go to the Sign up Page
+  Scenario: Navigate to the Sign Up page
+    When I click on "Sign Up"
+    Then I am redirected to the Sign Up page
