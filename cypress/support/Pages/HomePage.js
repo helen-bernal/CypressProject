@@ -1,77 +1,95 @@
-import BasePage from "./BasePage";
+import BasePage from "../../support/Pages/BasePage"; 
 
 class HomePage extends BasePage {
   constructor() {
     super();
-    // Selectores generales del carrusel
-    this.carouselRightArrow = '.carousel-control-next';
-    this.featuredItem = '.carousel-item.active';
-    this.thirdCarouselOption = '.carousel-indicator:nth-child(3)';
-    
-    // Enlaces del menú de navegación
+
+    // Carousel selectors
+    this.carousel = {
+      nextArrow: '.carousel-control-next',
+      firstIndicator: 'li[data-target="#carouselExampleIndicators"][data-slide-to="0"]',
+      secondIndicator: 'li[data-target="#carouselExampleIndicators"][data-slide-to="1"]',
+      thirdIndicator: 'li[data-target="#carouselExampleIndicators"][data-slide-to="2"]',
+      featuredItem: '.carousel-item.active img', // Ensure this selector is correct
+    };
+
+    // Navigation menu links
     this.headerLinks = {
-      home: 'a[href="/home"]',
-      contact: 'a[href="#contact"]',
-      aboutUs: 'a[href="#about-us"]',
-      cart: 'a[href="#cart"]',
-      login: 'a[href="#login"]',
-      signUp: 'a[href="#signup"]', // Agregado "Sign Up"
+      home: 'a.nav-link[href="index.html"]',
+      contact: 'a.nav-link[data-toggle="modal"][data-target="#exampleModal"]',
+      aboutUs: 'a.nav-link[data-target="#videoModal"]',
+      cart: '#cartut',
+      login: '#login2',
+      signUp: '#signin2',
     };
 
-    // Modal y formularios de contacto, about us, login y sign up
-    this.contactModal = "#contactModal";
+    // Modal and forms
+    this.contactModal = ".modal-content";
     this.contactFormFields = {
-      name: "#contactName",
-      email: "#contactEmail",
-      message: "#contactMessage",
+      name: "#recipient-name",
+      email: "#recipient-email",
+      message: "#message-text",
     };
-    this.contactSubmitButton = "#contactSubmit";
+    this.sendMessageButton = 'button:contains("Send message")';
 
-    this.aboutUsVideo = "#aboutUsVideo";
+    this.aboutUsVideo = ".vjs-poster";
 
-    this.loginModal = "#loginModal";
+    this.loginModal = ".modal-content";
     this.loginFormFields = {
-      username: "#loginUsername",
-      password: "#loginPassword",
+      username: "#loginusername",
+      password: "#loginpassword",
     };
-    this.loginSubmitButton = "#loginSubmit";
+    this.logInButton = 'button:contains("Log in")';
 
-    this.signUpModal = "#signUpModal";  // Modal de "Sign Up"
+    this.signUpModal = ".modal-content";
     this.signUpFormFields = {
-      username: "#signUpUsername",
-      email: "#signUpEmail",
-      password: "#signUpPassword",
+      username: "#sign-username",
+      email: "#sign-email",  // Assuming there's an email field
+      password: "#sign-password",
     };
-    this.signUpSubmitButton = "#signUpSubmit";  // Botón de envío del formulario
+    this.signUpButton = 'button:contains("Sign up")';
+
+    // Category selectors
+    this.categories = {
+      phones: 'a:contains("Phones")',
+      laptops: 'a:contains("Laptops")',
+      monitors: 'a:contains("Monitors")',
+    };
   }
 
-  // Método genérico para hacer clic en cualquier enlace del menú
+  // Carousel methods
+  clickNextArrow() {
+    this.click(this.carousel.nextArrow);
+  }
+
+  validateFeaturedItem() {
+    this.verifyElementVisible(this.carousel.featuredItem);
+  }
+
+  clickCarouselIndicator(indicatorNumber) {
+    const indicator = this.carousel[`indicator${indicatorNumber}`];
+    this.click(indicator);
+  }
+
+  // Navigation methods
   clickHeaderLink(linkName) {
     if (this.headerLinks[linkName]) {
       this.click(this.headerLinks[linkName]);
     } else {
-      throw new Error(`Enlace de menú no encontrado: ${linkName}`);
+      throw new Error(`Menu link not found: ${linkName}`);
     }
   }
 
-  // Validación del carrusel
-  clickCarouselRightArrow() {
-    this.click(this.carouselRightArrow);
+  // Category selection methods
+  selectCategory(categoryName) {
+    if (this.categories[categoryName]) {
+      this.click(this.categories[categoryName]);
+    } else {
+      throw new Error(`Category not found: ${categoryName}`);
+    }
   }
 
-  validateFeaturedItem() {
-    this.verifyElementVisible(this.featuredItem);
-  }
-
-  clickThirdCarouselOption() {
-    this.click(this.thirdCarouselOption);
-  }
-
-  // Métodos para el modal de contacto
-  validateContactModalVisible() {
-    this.verifyElementVisible(this.contactModal);
-  }
-
+  // Contact modal methods
   fillContactForm(name, email, message) {
     this.type(this.contactFormFields.name, name);
     this.type(this.contactFormFields.email, email);
@@ -79,33 +97,25 @@ class HomePage extends BasePage {
   }
 
   submitContactForm() {
-    this.click(this.contactSubmitButton);
+    this.click(this.sendMessageButton);
   }
 
-  // Métodos para "About Us" (si es un video, como ejemplo)
+  // "About Us" methods
   validateAboutUsVideoVisible() {
     this.verifyElementVisible(this.aboutUsVideo);
   }
 
-  // Métodos para el modal de login
-  validateLoginModalVisible() {
-    this.verifyElementVisible(this.loginModal);
-  }
-
+  // Login methods
   fillLoginForm(username, password) {
     this.type(this.loginFormFields.username, username);
     this.type(this.loginFormFields.password, password);
   }
 
   submitLoginForm() {
-    this.click(this.loginSubmitButton);
+    this.click(this.logInButton);
   }
 
-  // Métodos para el modal de "Sign Up"
-  validateSignUpModalVisible() {
-    this.verifyElementVisible(this.signUpModal);
-  }
-
+  // Sign Up modal methods
   fillSignUpForm(username, email, password) {
     this.type(this.signUpFormFields.username, username);
     this.type(this.signUpFormFields.email, email);
@@ -113,8 +123,36 @@ class HomePage extends BasePage {
   }
 
   submitSignUpForm() {
-    this.click(this.signUpSubmitButton);
+    this.click(this.signUpButton);
   }
+
+  // Method to click on a category
+  selectCategory(categoryName) {
+    const categorySelector = this.categories[categoryName];
+    if (categorySelector) {
+      this.click(categorySelector);
+    } else {
+      throw new Error(`Category not found: ${categoryName}`);
+    }
+  }
+
+  // Method to verify products under a specific category
+  verifyCategoryProducts(categoryName) {
+    cy.get(`.products-in-${categoryName}`).should('be.visible'); // Adjust selector
+  }
+
+  // Method to select a random product (you can improve this based on your structure)
+  selectRandomProduct() {
+    cy.get('.product-item').then(products => {
+      const randomProduct = products[Math.floor(Math.random() * products.length)];
+      cy.wrap(randomProduct).click(); // Click a random product
+    });
+  }
+
+  
 }
+
+
+
 
 export default new HomePage();

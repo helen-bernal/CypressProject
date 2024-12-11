@@ -1,38 +1,67 @@
 class BasePage {
-    // Método para visitar una URL específica
-    visit(url) {
-      cy.visit(url);
-    }
-  
-    // Método para hacer clic en un elemento
-    click(selector) {
-      cy.get(selector).click();
-    }
-  
-    // Método para escribir texto en un campo de entrada
-    type(selector, text) {
-      cy.get(selector).clear().type(text);
-    }
-  
-    // Método para verificar que un texto específico está visible en la página
-    verifyTextVisible(selector, expectedText) {
-      cy.get(selector).should("contain.text", expectedText);
-    }
-  
-    // Método para verificar que la URL contiene un fragmento específico
-    verifyUrlContains(fragment) {
-      cy.url().should("include", fragment);
-    }
-  
-    // Método para esperar un tiempo específico (evitarlo si es posible)
-    wait(seconds) {
-      cy.wait(seconds * 1000);
-    }
-  
-    // Método para verificar que un elemento está visible
-    verifyElementVisible(selector) {
-      cy.get(selector).should("be.visible");
-    }
+  // Method to visit a specific URL
+  visit(url) {
+    cy.visit(url);
+    cy.get('header').should('be.visible'); 
+  }
+
+  // Method to click on an element
+  click(selector) {
+    cy.get(selector)
+      .should('be.visible')
+      .and('not.be.disabled') 
+      .click();
+  }
+
+  // Method to type text into an input field
+  type(selector, text) {
+    cy.get(selector)
+      .clear()
+      .type(text)
+      .should('have.value', text); 
+  }
+
+  // Method to verify that a specific text is visible on the page
+  verifyTextVisible(selector, expectedText) {
+    cy.get(selector, { timeout: 10000 })  
+      .should('contain.text', expectedText);
+  }
+
+  // Method to verify that the URL contains a specific fragment
+  verifyUrlContains(fragment) {
+    cy.url().should('include', fragment);
+  }
+
+  // Method to wait for a specific time (avoid if possible)
+  wait(seconds) {
+    cy.wait(seconds * 1000);
+  }
+
+  // Method to verify that an element is visible
+  verifyElementVisible(selector) {
+    cy.get(selector, { timeout: 10000 })  
+      .should('be.visible');
   }
   
-  export default BasePage;
+  // Verify if a modal is visible
+  verifyModalVisible(modalSelector) {
+    cy.get(modalSelector).should('be.visible');
+  }
+
+  // Fill out a form inside a modal
+  fillForm(fields, values) {
+    fields.forEach((field, index) => {
+      cy.get(field)
+        .clear()
+        .type(values[index])
+        .should('have.value', values[index]);  
+    });
+  }
+
+  // Submit a form inside a modal
+  submitForm(submitButtonSelector) {
+    cy.get(submitButtonSelector).click();
+  }
+}
+
+export default new BasePage();

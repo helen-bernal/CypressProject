@@ -3,56 +3,42 @@ import BasePage from "./BasePage";
 class CartPage extends BasePage {
   constructor() {
     super();
-    // Selectores
-    this.cartTable = "#cartTable"; // Tabla que contiene los productos
-    this.productRow = ".cart-item"; // Fila de producto en el carrito
-    this.productName = ".cart-item-name"; // Nombre del producto
-    this.productPrice = ".cart-item-price"; // Precio del producto
-    this.deleteButton = ".cart-item-delete"; // Botón de eliminar producto
-    this.placeOrderButton = "#placeOrder"; // Botón para realizar el pedido
-    this.purchaseMessage = "#confirmationMessage"; // Mensaje de confirmación
+    // Specific selectors for the cart page
+    this.cartItems = '.success';
+    this.placeOrderButton = 'button:contains("Place Order")';
+    this.deleteItemLink = 'a:contains("Delete")';
+  
+    this.placeOrder = ".modal-content";
+    this.placeOrderFormFields = {
+      userName: "#name",
+      country: "#country",
+      city: "#city",
+      card: "#card",
+      month: "#mont",
+      year: "#year",
+    };
   }
 
-  // Métodos para interactuar con la página
-  validateCartContainsProduct(productName) {
-    cy.get(this.productRow)
-      .should("contain.text", productName)
-      .should("be.visible");
+  purchaseButton = 'button:contains("Purchase")';
+
+  // Validate that the cart items are visible
+  validateCartItemsVisible() {
+    this.verifyElementVisible(this.cartItems);
+
+  }
+   // Method to verify products in the cart
+   verifyProductsInCart() {
+    cy.get(this.cartItems).should('be.visible'); // Verify cart items are visible
   }
 
-  getProductPrice(productName) {
-    return cy
-      .get(this.productRow)
-      .contains(productName)
-      .parents(this.productRow)
-      .find(this.productPrice)
-      .invoke("text");
+  // Method to delete a product from the cart
+  deleteProduct() {
+    this.click(this.deleteItemLink); // Click delete button for a product
   }
 
-  deleteProduct(productName) {
-    cy.get(this.productRow)
-      .contains(productName)
-      .parents(this.productRow)
-      .find(this.deleteButton)
-      .click();
-  }
-
-  validateProductRemoved(productName) {
-    cy.get(this.cartTable).should("not.contain.text", productName);
-  }
-
-  clickPlaceOrder() {
-    this.click(this.placeOrderButton);
-  }
-
-  fillOrderDetails(orderDetails) {
-    Object.keys(orderDetails).forEach((field) => {
-      cy.get(`#${field}`).type(orderDetails[field]);
-    });
-  }
-
-  validatePurchaseMessage(expectedMessage) {
-    cy.get(this.purchaseMessage).should("contain.text", expectedMessage);
+  // Method to click "Place Order"
+  clickPlaceOrderButton() {
+    this.click('.place-order-button'); // Adjust with actual button selector
   }
 }
 

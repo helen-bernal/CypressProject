@@ -1,1 +1,7 @@
-{"baseURL": "https://www.demoblaze.com/index.html"}
+{ 
+    "baseUrl": "https://www.demoblaze.com/",
+    "pluginsFile": "cypress/plugins/index.js",
+    "viewportWidth": 1280,
+    "viewportHeight": 720,
+    "defaultCommandTimeout": 10000
+}

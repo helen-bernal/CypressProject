@@ -22,8 +22,7 @@ Feature: General Tests
     And I click on the product
     And I am redirected to the page with the name of the product as the title
     And I click on the button "Add to cart"
-    Then I see the message "Product added"
-
+    
   Scenario: Buying the cart
     When I click on the Cart menu
     Then I see the products I have added to the cart

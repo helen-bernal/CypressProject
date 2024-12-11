@@ -1,11 +1,11 @@
 Feature: Featured items carousel
 
   Background:
-    Given I visit the Blaze Store page
+    Given I visit the Blaze page
 
-  Scenario: Click on the right arrow to see the next featured item
+  Scenario: Click on the next arrow to see the next featured item
     When I visualize the first featured item
-    Then I click on the right arrow
+    Then I click on the next arrow
     And I see the next featured item
 
   Scenario: Wait for the carousel to change the featured item
