@@ -1,8 +1,10 @@
+@smoke @regression
 Feature: General Tests
 
   Background:
     Given I visit the Blaze Store page
 
+  @smoke
   Scenario: Categories selection
     When I select the Phones category
     Then I visualize the products of the Phones category
@@ -11,18 +13,21 @@ Feature: General Tests
     And I select the Monitors category
     And I visualize the products of the Monitors category
 
+  @regression
   Scenario: Product selection
     When I select a random product
     Then I recognize the name of the selected product
     And I click on the product
     And I am redirected to the page with the name of the product as the title
 
+  @regression
   Scenario: Adding a product to the cart
     When I select a random product
     And I click on the product
     And I am redirected to the page with the name of the product as the title
     And I click on the button "Add to cart"
     
+  @sanity
   Scenario: Buying the cart
     When I click on the Cart menu
     Then I see the products I have added to the cart
@@ -31,6 +36,7 @@ Feature: General Tests
     And I click on "Purchase"
     Then I see the message "Thank you for your purchase!"
 
+  @sanity
   Scenario: Removing an item from the cart
     When I click on the Cart menu
     Then I see the products I have added to the cart
